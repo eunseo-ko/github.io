@@ -75,6 +75,33 @@
                         data-sb-validations="required,email"
                       />
                     </div>
+                    <div><br /></div>
+                    <div class="card">
+                      <div class="card-body" style="color: black">
+                        동승자 수를 입력해주세요!
+                      </div>
+                      <div
+                        class="btn-group"
+                        role="group"
+                        aria-label="Basic example"
+                      >
+                        <button type="button" class="btn btn-secondary">
+                          1
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                          2
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                          3
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                          4
+                        </button>
+                        <button type="button" class="btn btn-secondary">
+                          5
+                        </button>
+                      </div>
+                    </div>
                     <div
                       class="invalid-feedback text-white"
                       data-sb-feedback="emailAddress:required"
@@ -89,24 +116,14 @@
                     </div>
                   </div>
                   <div class="col-auto">
-                    <button onclick="window.open('map.html')">찾기</button>
-                  </div>
-                </div>
-                <div><br /></div>
-                <div class="card">
-                  <div class="card-body" style="color: black">
-                    동승자 수를 입력해주세요!
-                  </div>
-                  <div
-                    class="btn-group"
-                    role="group"
-                    aria-label="Basic example"
-                  >
-                    <button type="button" class="btn btn-secondary">1</button>
-                    <button type="button" class="btn btn-secondary">2</button>
-                    <button type="button" class="btn btn-secondary">3</button>
-                    <button type="button" class="btn btn-secondary">4</button>
-                    <button type="button" class="btn btn-secondary">5</button>
+                    <br /><br />
+                    <button
+                      class="button find"
+                      style="align"
+                      onclick="window.open('map.html')"
+                    >
+                      찾기
+                    </button>
                   </div>
                 </div>
 
@@ -149,10 +166,15 @@
               <div class="features-icons-icon d-flex">
                 <i class="bi-window m-auto text-primary"></i>
               </div>
-              <h3>Fully Responsive</h3>
-              <p class="lead mb-0">
-                This theme will look great on any device, no matter the size!
-              </p>
+              <!-- <h3>충전소 찾기</h3> -->
+              <button
+                class="btn find"
+                style="font-size: 25px"
+                onclick="window.open('map.html')"
+              >
+                충전소 찾기
+              </button>
+              <p class="lead mb-0">전기차 충전소 정보 보기</p>
             </div>
           </div>
           <div class="col-lg-4">
@@ -160,10 +182,15 @@
               <div class="features-icons-icon d-flex">
                 <i class="bi-layers m-auto text-primary"></i>
               </div>
-              <h3>Bootstrap 5 Ready</h3>
-              <p class="lead mb-0">
-                Featuring the latest build of the new Bootstrap 5 framework!
-              </p>
+              <!-- <h3>Bootstrap 5 Ready</h3> -->
+              <button
+                class="btn find"
+                style="font-size: 25px"
+                onclick="window.open('map.html')"
+              >
+                기상청
+              </button>
+              <p class="lead mb-0">날씨 정보 보기</p>
             </div>
           </div>
           <div class="col-lg-4">
