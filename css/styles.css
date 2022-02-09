@@ -4343,11 +4343,11 @@ fieldset:disabled .btn {
 .navbar-brand {
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
-  margin-right: 50%;
-  margin-left: 50%;
-  font-size: 1.25rem;
+  font-size: 30px;
   text-decoration: none;
   white-space: nowrap;
+  font-weight: bold;
+  margin: 0 auto;
 }
 .navbar-nav {
   display: flex;
@@ -11690,7 +11690,8 @@ fieldset:disabled .btn {
 header.masthead {
   position: relative;
   background-color: #343a40;
-  background: url('../assets/img/bg-masthead.jpg') no-repeat center center;
+  background: url('../assets/img/하늘에서_내린_빛들.jpg') no-repeat center
+    center;
   background-size: cover;
   padding-top: 8rem;
   padding-bottom: 8rem;
@@ -11791,4 +11792,5 @@ footer.footer {
   display: inline-block;
   font-size: 50px;
   font-weight: bold;
+  margin: 4px 2px;
 }
