@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>simpleMap</title>
+    <link href="css/styles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://eunseo-ko.github.io/imev"></script>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=&appKey=l7xx884ec2d883c44448a543d23d26583120"></script>
@@ -24,7 +25,7 @@
         map = new Tmapv2.Map('map_div', {
           center: new Tmapv2.LatLng(37.49241689559544, 127.03171389453507),
           width: '100%',
-          height: '1800px',
+          height: '500px',
           zoom: 11,
           zoomControl: true,
           scrollwheel: true,
@@ -444,6 +445,7 @@
     </script>
   </head>
   <body onload="initTmap();">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     <div class="ft_area">
       <div class="ft_select_wrap">
         <div class="ft_select">
@@ -457,12 +459,7 @@
             <option value="12">이륜차도로우선</option>
             <option value="19">교통최적+어린이보호구역 회피</option>
           </select>
-          <select id="year">
-            <option value="N" selected="selected">교통정보 표출 옵션</option>
-            <option value="Y">Y</option>
-            <option value="N">N</option>
-          </select>
-          <button id="btn_select">적용하기</button>
+          <button class="but click" id="btn_select">적용하기</button>
         </div>
       </div>
       <div class="map_act_btn_wrap clear_box"></div>
@@ -472,8 +469,20 @@
     <div id="map_wrap" class="map_wrap">
       <div id="map_div"></div>
     </div>
+
     <div class="map_act_btn_wrap clear_box"></div>
     <p id="result"></p>
     <br />
+    <a href="index.html" class="previous">&laquo; Previous</a>
+    <a href="#" class="next">Next &raquo;</a>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
   </body>
 </html>
