@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Optimization</title>
+		<script	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx97e3554a2f1d4a53b6953752f710381c"></script>
+		<script type="text/javascript">
+
+var map;
+var marker_s, marker_e, marker;
+
+//경로그림정보
+var drawInfoArr = [];
+
+function initTmap(){
+	// 1. 지도 띄우기
+	map = new Tmapv2.Map("map_div", {
+		center: new Tmapv2.LatLng(37.56701114710962, 126.9973611831669),
+		width : "100%",
+		height : "600px",
+		zoom : 15,
+		zoomControl : true,
+		scrollwheel : true
+	});
+	$(document).ready(function () {
+        //   $('#btn_select').click(function () {
+            $.ajax({
+              dataType: 'json',
+              url: '/example.json',
+              mimeType: 'application/json',
+              success: function (result) {
+                if (result) {
+					console.log(result);
+                  alert('완료');
+				  $.each(result, function (index, value) {
+
+					console.log(result.startX);
+                  // 시작
+                marker_s = new Tmapv2.Marker({
+                    position: new Tmapv2.LatLng(value.startX, value.startY),
+                    icon: 'http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png',
+                    iconSize: new Tmapv2.Size(24, 38),
+                    map: map,
+                  });
+				  
+			 marker_e = new Tmapv2.Marker({
+		position : new Tmapv2.LatLng(value.endX, value.endY), //부산
+		icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_e.png",
+		iconSize : new Tmapv2.Size(24, 38),
+		map:map
+	});
+	
+	marker = new Tmapv2.Marker({
+		position : new Tmapv2.LatLng(37.32554335, 127.1102209), // 경유지 1
+		icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_1.png",
+		iconSize : new Tmapv2.Size(24, 38),
+		map:map
+	});
+	
+	marker = new Tmapv2.Marker({
+		position : new Tmapv2.LatLng(36.4444327,127.9212623), // 경유지 2
+		icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_b_m_2.png",
+		iconSize : new Tmapv2.Size(24, 38),
+		map:map
+	});
+                });
+                } else {
+                  alert('전송된 값 없음');
+                }
+              },
+              error: function () {
+                alert('에러 발생');
+
+                
+              },
+            });
+          //});
+        });
+	// 시작, 도착 심볼찍기
+	// 시작
+	// marker_s = new Tmapv2.Marker({ //서울
+	// 	position : new Tmapv2.LatLng(37.566567545861645, 126.9850380932383),
+	// 	icon : "http://tmapapi.sktelecom.com/upload/tmap/marker/pin_r_m_s.png",
+	// 	iconSize : new Tmapv2.Size(24, 38),
+	// 	map:map
+	// });
+	
+	// 도착 
+	
+	
+	var headers = {}; 
+	headers["appKey"]="l7xx97e3554a2f1d4a53b6953752f710381c";
+	
+	$.ajax({
+		type:"POST",
+		headers : headers,
+		url:"https://apis.openapi.sk.com/tmap/routes/routeOptimization30?version=1&format=json",//
+		async:false,
+		contentType: "application/json",
+		data: JSON.stringify({
+				  "reqCoordType": "WGS84GEO",
+				  "resCoordType" : "EPSG3857",
+				  "startName": "출발",
+				  "startX": "126.9850380932383",
+				  "startY": "37.566567545861645",
+				  "startTime": "201711121314",
+				  "endName": "도착",
+				  "endX": "128.7384361",
+				  "endY": "35.3959361",
+				  "searchOption" : "0",
+				  "viaPoints": [
+				    {
+				      "viaPointId": "test01",
+				      "viaPointName": "test01",
+				      "viaX": "127.1102209",
+				      "viaY": "37.32554335",
+				    },
+				    {
+				      "viaPointId": "test02",
+				      "viaPointName": "test02",
+				      "viaX": "127.9212623",
+				      "viaY": "36.4444327",
+				    }
+				  ]
+		}),
+		success:function(response){
+			var resultData = response.properties;
+			var resultFeatures = response.features;
+			
+			// 결과 출력
+			var tDistance = "총 거리 : " + (resultData.totalDistance/1000).toFixed(1) + "km,  ";
+			var tTime = "총 시간 : " + (resultData.totalTime/60).toFixed(0) + "분,  ";
+			var tFare = "총 요금 : " + resultData.totalFare + "원";
+			
+			$("#result").text(tDistance+tTime+tFare);
+			
+			for(var i in resultFeatures) {
+				var geometry = resultFeatures[i].geometry;
+				var properties = resultFeatures[i].properties;
+				var polyline_;
+				
+				drawInfoArr = [];
+				
+				if(geometry.type == "LineString") {
+					for(var j in geometry.coordinates){
+						// 경로들의 결과값(구간)들을 포인트 객체로 변환 
+						var latlng = new Tmapv2.Point(geometry.coordinates[j][0], geometry.coordinates[j][1]);
+						// 포인트 객체를 받아 좌표값으로 변환
+						var convertPoint = new Tmapv2.Projection.convertEPSG3857ToWGS84GEO(latlng);
+						// 포인트객체의 정보로 좌표값 변환 객체로 저장
+						var convertChange = new Tmapv2.LatLng(convertPoint._lat, convertPoint._lng);
+						
+						drawInfoArr.push(convertChange);
+					}
+
+					polyline_ = new Tmapv2.Polyline({
+						path : drawInfoArr,
+						strokeColor : "#FF0000",
+						strokeWeight: 6,
+						map : map
+					});
+				}
+			}
+		},
+		error:function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}	
+	
+</script>
+<body onload="initTmap()"><!-- 맵 생성 실행 -->
+	
+		<div id="map_wrap" class="map_wrap">
+			<div id="map_div"></div>
+		</div>
+		<p id="result"></p>
+		<p id="demo"></p> <br>
+		<button type="button">클릭</button>
+		<script type="text/javascript">
+		$(document).ready(function() {
+	$("button").click(function() {
+		$.ajax({
+			url : "example.json", // 어디로 갈거니? // 갈 때 데이터
+			type : "get", // 타입은 뭘 쓸거니?
+			datatype : "json",
+			success : function(data) { // 갔다온 다음 결과값
+			//	alert('seccuss');	// 나오면 파일을 찾았다는 것
+			//	alert(data);  // [object Object],[object Object],[object Object]
+				
+			// 데이터를 확인하고 싶을 때.
+			//	let str = JSON.stringify(data); // <> parse()
+			//	alert(str); 
+
+				$.each(data, function(index, value) { // 데이터 =value
+					console.log(value.startX);
+					$("#demo").append(index + " "); // index가 끝날때까지 
+					$("#demo").append(value.lat + " ");
+					$("#demo").append(value.lon + " ");
+					$("#demo").append(value.charger_type + " ");
+					$("#demo").append(value.address + "<br>");
+				});
+			},
+			error : function() {
+				alert('error');			
+			}
+		});
+	});
+});
+
+		</script>
+	</body>
+</html>	
